@@ -30,8 +30,12 @@ def histogram_predict(belief, left_encoder_ticks, right_encoder_ticks, grid_spec
     maxids = np.unravel_index(belief_in.argmax(), belief_in.shape)
     phi_max = grid_spec['phi_min'] + (maxids[1] + 0.5) * grid_spec['delta_phi']
 
-    v = (left_encoder_ticks + right_encoder_ticks) * robot_spec['wheel_radius'] / 2.  # replace this with a function that uses the encoder
-    w = (robot_spec['wheel_radius'] * (right_encoder_ticks - left_encoder_ticks)) / robot_spec['wheel_baseline']  # replace this with a function that uses the encoder
+    alpha = 2 * np.pi/ robot_spec['encoder_resolution']
+    linear_dis_left = robot_spec['wheel_radius'] * left_encoder_ticks * alpha
+    linear_dis_right = robot_spec['wheel_radius'] * right_encoder_ticks * alpha
+
+    v = (linear_dis_left + linear_dis_right) / 2.  # replace this with a function that uses the encoder
+    w = (linear_dis_right - linear_dis_left) / robot_spec['wheel_baseline']  # replace this with a function that uses the encoder
 
     # propagate each centroid
     d_t = grid_spec["d"] + v
