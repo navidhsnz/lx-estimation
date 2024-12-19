@@ -172,7 +172,7 @@ def histogram_update(belief, segments, road_spec, grid_spec):
         # Don't forget that you may need to normalize to ensure that the output is valid
         # probability distribution
         belief = belief *  measurement_likelihood
-        belief /= np.sum(belief)
+        belief =  belief / (np.sum(belief)+ 1e-9 )
         # replace this with something that combines the belief and the measurement_likelihood
         # belief = measurement_likelihood
     return measurement_likelihood, belief
