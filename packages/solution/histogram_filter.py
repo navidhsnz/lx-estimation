@@ -30,7 +30,7 @@ def histogram_predict(belief, left_encoder_ticks, right_encoder_ticks, grid_spec
     maxids = np.unravel_index(belief_in.argmax(), belief_in.shape)
     phi_max = grid_spec['phi_min'] + (maxids[1] + 0.5) * grid_spec['delta_phi']
 
-    v = (left_encoder_ticks + right_encoder_ticks) * robot_spec['wheel_radius'] / 2  # replace this with a function that uses the encoder
+    v = (left_encoder_ticks + right_encoder_ticks) * robot_spec['wheel_radius'] / 2.  # replace this with a function that uses the encoder
     w = (robot_spec['wheel_radius'] * (right_encoder_ticks - left_encoder_ticks)) / robot_spec['wheel_baseline']  # replace this with a function that uses the encoder
 
     # propagate each centroid
@@ -172,7 +172,7 @@ def histogram_update(belief, segments, road_spec, grid_spec):
         # Don't forget that you may need to normalize to ensure that the output is valid
         # probability distribution
         belief = belief *  measurement_likelihood
-        belief =  belief / (np.sum(belief)+ 1e-9 )
+        belief =  belief / (np.sum(belief))
         # replace this with something that combines the belief and the measurement_likelihood
         # belief = measurement_likelihood
     return measurement_likelihood, belief
